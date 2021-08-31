@@ -1,8 +1,8 @@
-using AplicacaoCleanArch.ViewModels;
+using Application.ViewModels;
 using AutoMapper;
-using DominioCleanArch;
-using InfraCleanArch;
-using InfraCleanArch.Contexto;
+using Dominio;
+using Infrastructure;
+using Infrastructure.Contexto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +29,7 @@ namespace API
 
 			services.AddControllers();
 			
-			services.AddDbContext<DaniloRenatoCommerceDbContext>(options =>
+			services.AddDbContext<DatabaseContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("DaniloRenatoCommerceConnectionString"));
 			});
@@ -41,10 +41,10 @@ namespace API
 
 			var config = new AutoMapper.MapperConfiguration(cfg =>
 			{
-				cfg.CreateMap<CategoriaViewModel, Categoria>();
-				cfg.CreateMap<Categoria, CategoriaViewModel>();
-				cfg.CreateMap<ProdutoViewModel, Produto>();
-				cfg.CreateMap<Produto, ProdutoViewModel>();
+				cfg.CreateMap<UserViewModel, Categoria>();
+				cfg.CreateMap<Categoria, UserViewModel>();
+				cfg.CreateMap<ProductViewModel, Product>();
+				cfg.CreateMap<Product, ProductViewModel>();
 			});
 
 			IMapper mapper = config.CreateMapper();

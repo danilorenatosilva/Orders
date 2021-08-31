@@ -1,20 +1,24 @@
-﻿using AplicacaoCleanArch.Interfaces;
-using AplicacaoCleanArch.Servicos;
-using DominioCleanArch.Interfaces;
-using InfraCleanArch.Repositorios;
+﻿using Application.Interfaces;
+using Application.Services;
+using Application.Servicos;
+using Domain.Interfaces;
+using Dominio.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InfraCleanArch
+namespace Infrastructure
 {
 	public class DependencyContainer
 	{
         public static void RegisterServices(IServiceCollection services)
         { 
-            services.AddScoped<IProdutoServico, ProdutoServico>();
-            services.AddScoped<ICategoriaServico, CategoriaServico>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOrderService, OrderService>();
 
-            services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
-            services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }
