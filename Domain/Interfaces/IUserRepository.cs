@@ -5,9 +5,9 @@ namespace Dominio.Interfaces
 {
 	public interface IUserRepository
 	{
-		IEnumerable<User> GetUsers();
-		User GetUserById(int id);
-		User Create(User user);
-		void Update(User user);
+		IEnumerable<AppUser> GetUsers();
+		AppUser GetUserById(int id);
+		AppUser Create(AppUser user);
+		void Update(AppUser user);
 	}
 }

@@ -17,24 +17,24 @@ namespace Infrastructure.Repositories
 			_context = context;
 		}
 
-		public User Create(User user)
+		public AppUser Create(AppUser user)
 		{
 			user.CreatedAt = DateTime.Now;
 			_context.Users.Add(user);
 			return user;
 		}
 
-		public User GetUserById(int id)
+		public AppUser GetUserById(int id)
 		{
 			return _context.Users.FirstOrDefault(p => p.Id == id);
 		}
 
-		public IEnumerable<User> GetUsers()
+		public IEnumerable<AppUser> GetUsers()
 		{
 			return _context.Users.ToList();
 		}
 
-		public void Update(User user)
+		public void Update(AppUser user)
 		{
 			_context.Entry(user).State = EntityState.Modified;
 			_context.SaveChanges();

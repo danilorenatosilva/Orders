@@ -19,12 +19,12 @@ namespace Application.Servicos
 			_mapper = mapper;
 		}
 
-		public UserViewModel Create(UserViewModel categoriaViewModel)
+		public UserViewModel Create(RegisterUserViewModel registerUserViewModel)
 		{
-			User categoria = _mapper.Map<User>(categoriaViewModel);
+			AppUser categoria = _mapper.Map<AppUser>(registerUserViewModel);
 			categoria = _repository.Create(categoria);
 			return _mapper.Map<UserViewModel>(categoria);
-		}
+		}		
 
 		public UserViewModel GetUserById(int id)
 		{
@@ -33,14 +33,26 @@ namespace Application.Servicos
 
 		public IEnumerable<UserViewModel> GetUsers()
 		{
-			var categorias = _repository.GetUsers().ToList();
-			return _mapper.Map<List<UserViewModel>>(categorias);
+			var users = _repository.GetUsers().ToList();
+			return _mapper.Map<List<UserViewModel>>(users);
 		}
 
-		public void Update(UserViewModel categoriaViewModel)
+		public void Update(UserViewModel userViewModel)
 		{
-			User categoria = _mapper.Map<User>(categoriaViewModel);
-			_repository.Update(categoria);
+			AppUser user = _mapper.Map<AppUser>(userViewModel);
+			_repository.Update(user);
+		}
+
+		public bool UserExists(string userName)
+		{
+			return _repository.GetUsers()
+						.FirstOrDefault(u => u.UserName.ToLower().Equals(userName)) != null;
+		}
+
+		public bool EmailExists(string email)
+		{
+			return _repository.GetUsers()
+						.FirstOrDefault(u => u.Email.Equals(email)) != null;
 		}
 	}
 }

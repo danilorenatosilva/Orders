@@ -7,7 +7,9 @@ namespace Application.Interfaces
 	{
 		IEnumerable<UserViewModel> GetUsers();
 		UserViewModel GetUserById(int id);
-		UserViewModel Create(UserViewModel user);
+		UserViewModel Create(RegisterUserViewModel user);
 		void Update(UserViewModel user);
+		bool UserExists(string userName);
+		bool EmailExists(string email);
 	}
 }

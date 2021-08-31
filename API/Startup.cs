@@ -40,10 +40,10 @@ namespace API
 
 			var config = new MapperConfiguration(cfg =>
 			{
-				cfg.CreateMap<UserViewModel, User>();
-				cfg.CreateMap<User, UserViewModel>();
-				cfg.CreateMap<LoginUserViewModel, User>();
-				cfg.CreateMap<User, LoginUserViewModel>();
+				cfg.CreateMap<RegisterUserViewModel, AppUser>();
+				cfg.CreateMap<AppUser, RegisterUserViewModel>();
+				cfg.CreateMap<LoginUserViewModel, AppUser>();
+				cfg.CreateMap<AppUser, LoginUserViewModel>();
 				cfg.CreateMap<ProductViewModel, Product>();
 				cfg.CreateMap<Product, ProductViewModel>();
 				cfg.CreateMap<OrderViewModel, Order>();
