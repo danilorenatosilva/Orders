@@ -1,6 +1,6 @@
 using Application.ViewModels;
 using AutoMapper;
-using Dominio;
+using Domain;
 using Infrastructure;
 using Infrastructure.Contexto;
 using Microsoft.AspNetCore.Builder;
@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
 
 namespace API
 {
@@ -31,7 +30,7 @@ namespace API
 			
 			services.AddDbContext<DatabaseContext>(options =>
 			{
-				options.UseSqlServer(Configuration.GetConnectionString("DaniloRenatoCommerceConnectionString"));
+				options.UseSqlServer(Configuration.GetConnectionString("OrdersConnectionString"));
 			});
 
 			services.AddSwaggerGen(c =>
@@ -39,12 +38,16 @@ namespace API
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 			});
 
-			var config = new AutoMapper.MapperConfiguration(cfg =>
+			var config = new MapperConfiguration(cfg =>
 			{
-				cfg.CreateMap<UserViewModel, Categoria>();
-				cfg.CreateMap<Categoria, UserViewModel>();
+				cfg.CreateMap<UserViewModel, User>();
+				cfg.CreateMap<User, UserViewModel>();
+				cfg.CreateMap<LoginUserViewModel, User>();
+				cfg.CreateMap<User, LoginUserViewModel>();
 				cfg.CreateMap<ProductViewModel, Product>();
 				cfg.CreateMap<Product, ProductViewModel>();
+				cfg.CreateMap<OrderViewModel, Order>();
+				cfg.CreateMap<Order, OrderViewModel>();
 			});
 
 			IMapper mapper = config.CreateMapper();
