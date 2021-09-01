@@ -34,6 +34,13 @@ namespace API
 				options.UseSqlServer(Configuration.GetConnectionString("OrdersConnectionString"));
 			});
 
+			services.AddIdentity<IdentityUser, IdentityRole>(options =>
+			{
+				options.User.RequireUniqueEmail = false;
+			})
+			.AddEntityFrameworkStores<OrdersDbContext>()
+			.AddDefaultTokenProviders();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -41,10 +48,12 @@ namespace API
 
 			var config = new MapperConfiguration(cfg =>
 			{
-				cfg.CreateMap<RegisterUserViewModel, AppUser>();
-				cfg.CreateMap<AppUser, RegisterUserViewModel>();
-				cfg.CreateMap<LoginUserViewModel, AppUser>();
-				cfg.CreateMap<AppUser, LoginUserViewModel>();
+				cfg.CreateMap<RegisterUserViewModel, IdentityUser>();
+				cfg.CreateMap<IdentityUser, RegisterUserViewModel>();
+				cfg.CreateMap<LoginUserViewModel, IdentityUser>();
+				cfg.CreateMap<IdentityUser, LoginUserViewModel>();
+				cfg.CreateMap<UserViewModel, AppUser>();
+				cfg.CreateMap<AppUser, UserViewModel>();
 				cfg.CreateMap<ProductViewModel, Product>();
 				cfg.CreateMap<Product, ProductViewModel>();
 				cfg.CreateMap<OrderViewModel, Order>();

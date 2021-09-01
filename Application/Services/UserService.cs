@@ -19,11 +19,11 @@ namespace Application.Servicos
 			_mapper = mapper;
 		}
 
-		public UserViewModel Create(RegisterUserViewModel registerUserViewModel)
+		public UserViewModel Create(UserViewModel userViewModel)
 		{
-			AppUser categoria = _mapper.Map<AppUser>(registerUserViewModel);
-			categoria = _repository.Create(categoria);
-			return _mapper.Map<UserViewModel>(categoria);
+			AppUser user = _mapper.Map<AppUser>(userViewModel);
+			user = _repository.Create(user);
+			return _mapper.Map<UserViewModel>(user);
 		}		
 
 		public UserViewModel GetUserById(int id)

@@ -18,14 +18,14 @@ namespace Application.Services
 {
 	public class AccountService : IAccountService
 	{
-		private readonly UserManager<AppUser> _userManager;
-		private readonly SignInManager<AppUser> _signInManager;
+		private readonly UserManager<IdentityUser> _userManager;
+		private readonly SignInManager<IdentityUser> _signInManager;
 		private readonly IMapper _mapper;
 		private readonly IUserService _userService;
 		private readonly SymmetricSecurityKey _key;
 
-		public AccountService(UserManager<AppUser> userManager, 
-							SignInManager<AppUser> signInManager, 
+		public AccountService(UserManager<IdentityUser> userManager,
+							SignInManager<IdentityUser> signInManager,
 							IMapper mapper,
 							IConfiguration configuration,
 							IUserService userService)
@@ -35,7 +35,7 @@ namespace Application.Services
 			_mapper = mapper;
 			_userService = userService;
 			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
-		}		
+		}
 
 		public async Task<UserViewModel> Login(LoginUserViewModel loginUserViewModel)
 		{
@@ -45,41 +45,46 @@ namespace Application.Services
 			var result = await _signInManager
 				.CheckPasswordSignInAsync(user, loginUserViewModel.Password, false);
 
-			if (!result.Succeeded || user == null) 
+			if (!result.Succeeded || user == null)
 				return null;
 
 			return new UserViewModel
 			{
-				UserName = user.UserName,
+				UserName = loginUserViewModel.UserName,
 				Token = await CreateToken(user),
-				Email = user.Email,
-				FullDisplayName = user.FullDisplayName
+				Email = user.Email
 			};
 		}
 
-		public async Task<UserViewModel> Register(RegisterUserViewModel userViewModel)
+		public async Task<UserViewModel> Register(RegisterUserViewModel registerUserViewModel)
 		{
-			var user = _mapper.Map<AppUser>(userViewModel);
+			var user = _mapper.Map<IdentityUser>(registerUserViewModel);
 
-			user.UserName = userViewModel.UserName.ToLower();
+			user.UserName = registerUserViewModel.UserName.ToLower();
 
-			var result = await _userManager.CreateAsync(user, userViewModel.Password);
+			var result = await _userManager.CreateAsync(user, registerUserViewModel.Password);
 
-			if (!result.Succeeded) 
+			if (!result.Succeeded)
 				return null;
 
+			var userViewModel = new UserViewModel
+			{
+				Email = registerUserViewModel.Email,
+				FullDisplayName = registerUserViewModel.FullDisplayName,
+				UserName = registerUserViewModel.UserName
+			};
 			_userService.Create(userViewModel);
 
 			return new UserViewModel
 			{
 				UserName = user.UserName,
 				Email = user.Email,
-				FullDisplayName = user.FullDisplayName,
+				FullDisplayName = userViewModel.FullDisplayName,
 				Token = await CreateToken(user)
 			};
 		}
 
-		public async Task<string> CreateToken(AppUser user)
+		public async Task<string> CreateToken(IdentityUser user)
 		{
 			var claims = new List<Claim>
 			{
