@@ -64,5 +64,10 @@ namespace Application.Servicos
 
 			return _mapper.Map<List<UserViewModel>>(appUsers);
 		}
+
+		public UserViewModel GetUserByUserName(string userName)
+		{
+			return _mapper.Map<UserViewModel>(_repository.GetUserByUserName(userName));
+		}
 	}
 }

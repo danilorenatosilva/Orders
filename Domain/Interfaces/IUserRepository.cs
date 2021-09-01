@@ -9,6 +9,7 @@ namespace Dominio.Interfaces
 		List<AppUser> GetUsersByFilter(string userName, string fullDisplayName,
 													string email, string initialDateString,
 													string finalDateString);
+		AppUser GetUserByUserName(string userName);
 		AppUser GetUserById(int id);
 		AppUser Create(AppUser user);
 		void Update(AppUser user);

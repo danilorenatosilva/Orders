@@ -67,6 +67,11 @@ namespace Infrastructure.Repositories
 				.ToList();
 		}
 
+		public AppUser GetUserByUserName(string userName)
+		{
+			return _context.AppUsers.FirstOrDefault(u => u.UserName.Equals(userName));
+		}
+
 		public void Update(AppUser user)
 		{
 			_context.Entry(user).State = EntityState.Modified;

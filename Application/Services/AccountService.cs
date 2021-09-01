@@ -41,17 +41,23 @@ namespace Application.Services
 			var user = await _userManager.Users
 				.SingleOrDefaultAsync(x => x.UserName == loginUserViewModel.UserName.ToLower());
 
+			if (user == null)
+				return null;
+
 			var result = await _signInManager
 				.CheckPasswordSignInAsync(user, loginUserViewModel.Password, false);
 
-			if (!result.Succeeded || user == null)
+			if (!result.Succeeded)
 				return null;
+
+			var appUser = _userService.GetUserByUserName(user.UserName);
 
 			return new UserViewModel
 			{
-				UserName = loginUserViewModel.UserName,
+				UserName = appUser.UserName,
 				Token = await CreateToken(user),
-				Email = user.Email
+				Email = appUser.Email,
+				FullDisplayName = appUser.FullDisplayName
 			};
 		}
 

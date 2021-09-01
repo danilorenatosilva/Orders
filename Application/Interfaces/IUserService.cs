@@ -12,6 +12,7 @@ namespace Application.Interfaces
 											 string fullDisplayName,
 											 string email,
 											 string initialDate, string finalDate);
+		UserViewModel GetUserByUserName(string userName);
 		UserViewModel Create(UserViewModel user);
 		void Update(UserViewModel user);
 		bool UserExists(string userName);
