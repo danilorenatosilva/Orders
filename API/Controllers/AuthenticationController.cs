@@ -15,7 +15,6 @@ namespace API.Controllers
 		private readonly IAccountService _accountService;
 
 		public AuthenticationController(IUserService userService, 
-			IMapper mapper, IConfiguration configuration, 
 			IAccountService accountService)
 		{
 			_userService = userService;
@@ -25,16 +24,31 @@ namespace API.Controllers
 		[HttpPost("signin")]
 		public async Task<IActionResult> SignIn([FromBody] LoginUserViewModel loginUserViewModel)
 		{
-			await _accountService.Login(loginUserViewModel);
-			return Ok(loginUserViewModel);
+			var user = await _accountService.Login(loginUserViewModel);
+			if (user == null)
+			{
+				return Unauthorized("Username or password are invalid");
+			}
+
+			return Ok(user);
 		}
 
 		[HttpPost("signup")]
 		public async Task<IActionResult> SignUp([FromBody] RegisterUserViewModel registerUserViewModel)
 		{
-			await _accountService.Register(registerUserViewModel);
+			if (_userService.UserExists(registerUserViewModel.UserName))
+			{
+				return BadRequest("Username already exists");
+			}
 
-			return Ok();
+			if (_userService.EmailExists(registerUserViewModel.Email))
+			{
+				return BadRequest("Email already exists");
+			}
+
+			var user = await _accountService.Register(registerUserViewModel);
+
+			return Ok(user);
 		}
 	}
 }
