@@ -26,8 +26,9 @@ namespace API.Controllers
 			   (!string.IsNullOrEmpty(finalDate) && !DateTime.TryParse(finalDate, out DateTime finalDateParameter)))
 				return BadRequest();
 
+			var users = _userService.GetUsersByFilter(userName, fullDisplayName, email, initialDate, finalDate);
 
-			return Ok();
+			return Ok(users);
 		}
 	}
 }
