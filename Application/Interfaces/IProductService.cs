@@ -7,6 +7,10 @@ namespace Application.Interfaces
 	{
 		IEnumerable<ProductViewModel> GetProducts();
 		ProductViewModel GetProductById(int id);
+		List<ProductViewModel> GetProductsByFilter(string name,
+								string description,
+								string priceString, string initialDateString,
+								string finalDateString);
 		ProductViewModel Create(ProductViewModel product);
 		void Update(ProductViewModel product);
 	}

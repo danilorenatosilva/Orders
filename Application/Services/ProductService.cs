@@ -30,6 +30,15 @@ namespace Application.Servicos
 			return _mapper.Map<ProductViewModel>(_repository.GetProductById(id));
 		}
 
+		public List<ProductViewModel> GetProductsByFilter(string name,
+								string description,
+								string price, 
+								string initialDate,
+								string finalDate)
+		{
+			return _mapper.Map<List<ProductViewModel>>(_repository.GetProductsByFilter(name, description, price, initialDate, finalDate));
+		}
+
 		public IEnumerable<ProductViewModel> GetProducts()
 		{
 			return _mapper.Map<List<ProductViewModel>>(_repository.GetProducts().ToList());
