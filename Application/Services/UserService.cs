@@ -60,33 +60,7 @@ namespace Application.Servicos
 													string email, string initialDateString, 
 													string finalDateString)
 		{
-			List<AppUser> appUsers = new List<AppUser>();
-
-			DateTime? initialDate = null;
-			DateTime? finalDate = null;
-
-			if (!string.IsNullOrWhiteSpace(initialDateString) && !string.IsNullOrWhiteSpace(finalDateString))
-			{
-				initialDate = DateTime.Parse(initialDateString);
-				finalDate = DateTime.Parse(finalDateString);
-			}
-			
-			appUsers = _repository.GetUsers()
-							.Where(u => (string.IsNullOrWhiteSpace(userName) || 
-							               (!string.IsNullOrWhiteSpace(userName) &&  
-											u.UserName.ToLower().Equals(userName.ToLower())))
-									&&
-									    (string.IsNullOrWhiteSpace(fullDisplayName) ||
-										   (!string.IsNullOrWhiteSpace(fullDisplayName) && 
-											u.FullDisplayName.ToLower().Contains(fullDisplayName.ToLower())))
-									&& (string.IsNullOrWhiteSpace(email) || 
-									       (!string.IsNullOrWhiteSpace(email) && 
-									        u.Email.ToLower().Equals(email.ToLower())))
-									&&	((initialDate == null || finalDate == null) ||
-									        ((initialDate != null && finalDate != null) && 
-									        (u.CreatedAt >= initialDate && u.CreatedAt <= finalDate)))
-									)
-							.ToList();
+			List<AppUser> appUsers = _repository.GetUsersByFilter(userName, fullDisplayName, email, initialDateString, finalDateString);
 
 			return _mapper.Map<List<UserViewModel>>(appUsers);
 		}
