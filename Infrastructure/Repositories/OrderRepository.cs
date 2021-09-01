@@ -21,6 +21,7 @@ namespace Infrastructure.Repositories
 		{
 			product.CreatedAt = DateTime.Now;
 			_context.Orders.Add(product);
+			_context.SaveChanges();
 			return product;
 		}
 

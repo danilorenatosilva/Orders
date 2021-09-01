@@ -21,6 +21,7 @@ namespace Infrastructure.Repositories
 		{
 			user.CreatedAt = DateTime.Now;
 			_context.AppUsers.Add(user);
+			_context.SaveChanges();
 			return user;
 		}
 
