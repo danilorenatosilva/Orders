@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
 using AutoMapper;
-using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
