@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Dominio.Interfaces;
-using Infrastructure.Contexto;
+using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ namespace Infrastructure.Repositories
 {
 	public class UserRepository : IUserRepository
 	{
-		private readonly DatabaseContext _context;
+		private readonly OrdersDbContext _context;
 
-		public UserRepository(DatabaseContext context)
+		public UserRepository(OrdersDbContext context)
 		{
 			_context = context;
 		}
@@ -20,18 +20,18 @@ namespace Infrastructure.Repositories
 		public AppUser Create(AppUser user)
 		{
 			user.CreatedAt = DateTime.Now;
-			_context.Users.Add(user);
+			_context.AppUsers.Add(user);
 			return user;
 		}
 
 		public AppUser GetUserById(int id)
 		{
-			return _context.Users.FirstOrDefault(p => p.Id == id);
+			return _context.AppUsers.FirstOrDefault(p => p.Id == id);
 		}
 
 		public IEnumerable<AppUser> GetUsers()
 		{
-			return _context.Users.ToList();
+			return _context.AppUsers.ToList();
 		}
 
 		public void Update(AppUser user)

@@ -2,9 +2,10 @@ using Application.ViewModels;
 using AutoMapper;
 using Domain;
 using Infrastructure;
-using Infrastructure.Contexto;
+using Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,7 @@ namespace API
 
 			services.AddControllers();
 			
-			services.AddDbContext<DatabaseContext>(options =>
+			services.AddDbContext<OrdersDbContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("OrdersConnectionString"));
 			});

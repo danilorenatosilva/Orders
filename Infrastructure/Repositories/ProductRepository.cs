@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Dominio.Interfaces;
-using Infrastructure.Contexto;
+using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ namespace Infrastructure.Repositories
 {
 	public class ProductRepository : IProductRepository
 	{
-		private readonly DatabaseContext _context;
+		private readonly OrdersDbContext _context;
 
-		public ProductRepository(DatabaseContext context)
+		public ProductRepository(OrdersDbContext context)
 		{
 			_context = context;
 		}
