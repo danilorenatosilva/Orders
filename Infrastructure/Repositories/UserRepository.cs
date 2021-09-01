@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
 		public AppUser Create(AppUser user)
 		{
 			Random random = new Random(DateTime.Today.Millisecond);
-			user.CreatedAt = new DateTime(2021, random.Next(1, 12), random.Next(1, 30));//DateTime.Now;
+			user.CreatedAt = DateTime.Now;
 			_context.AppUsers.Add(user);
 			_context.SaveChanges();
 			return user;
