@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
@@ -8,6 +9,13 @@ namespace API.Controllers
 	[Route("[controller]")]
 	public class UsersController : ControllerBase
 	{
+		private readonly IUserService _userService;
+
+		public UsersController(IUserService userService)
+		{
+			_userService = userService;
+		}
+
 		[HttpGet]
 		public async Task<IActionResult> GetUsersByFilter([FromQuery]string userName, 
 														string fullDisplayName, 
