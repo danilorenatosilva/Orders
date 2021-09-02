@@ -17,12 +17,16 @@ namespace Infrastructure.Repositories
 			_context = context;
 		}
 
-		public Order Create(Order product)
+		public Order Create(Order order)
 		{
-			product.CreatedAt = DateTime.Now;
-			_context.Orders.Add(product);
+			order.CreatedAt = DateTime.Now;
+			_context.Orders.Add(order);
 			_context.SaveChanges();
-			return product;
+			foreach (var product in order.Products)
+			{
+				product.OrderId = order.Id;
+			}
+			return order;
 		}
 
 		public Order GetOrderById(int id)
@@ -35,9 +39,9 @@ namespace Infrastructure.Repositories
 			return _context.Orders.ToList();
 		}
 
-		public void Update(Order product)
+		public void Update(Order order)
 		{
-			_context.Entry(product).State = EntityState.Modified;
+			_context.Entry(order).State = EntityState.Modified;
 			_context.SaveChanges();
 		}
 	}
