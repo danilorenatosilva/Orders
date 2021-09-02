@@ -6,6 +6,6 @@ namespace Application.ViewModels
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }
-		public List<ProductViewModel> Products { get; set; }
+		public List<OrderItemViewModel> Products { get; set; }
 	}
 }
