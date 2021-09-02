@@ -3,6 +3,7 @@ using Application.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -19,7 +20,7 @@ namespace API.Controllers
 
 		[HttpGet]
 		[Authorize]
-		public IActionResult GetProductsByFilter([FromQuery] string name, 
+		public async Task<IActionResult> GetProductsByFilter([FromQuery] string name, 
 								string description, 
 								string price, string initialDate, 
 								string finalDate)
@@ -41,7 +42,7 @@ namespace API.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public IActionResult Create([FromBody] ProductViewModel productViewModel)
+		public async Task<IActionResult> Create([FromBody] ProductViewModel productViewModel)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest();
@@ -50,6 +51,24 @@ namespace API.Controllers
 			{
 				var product = _productService.Create(productViewModel);
 				return Ok(product);
+			}
+			catch
+			{
+				return StatusCode(500);
+			}
+		}
+
+		[HttpPut("{id}")]
+		[Authorize]
+		public async Task<IActionResult> Update(int id, [FromBody] ProductViewModel productViewModel)
+		{
+			if (id != productViewModel.Id)
+				return BadRequest();
+
+			try
+			{
+				_productService.Update(productViewModel);
+				return NoContent();
 			}
 			catch
 			{
