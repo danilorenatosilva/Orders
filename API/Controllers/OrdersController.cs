@@ -1,9 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -20,6 +18,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> GetOrders()
 		{
 			try
@@ -33,6 +32,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Create([FromBody]OrderViewModel orderViewModel)
 		{
 			try

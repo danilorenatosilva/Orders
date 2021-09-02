@@ -22,10 +22,6 @@ namespace Infrastructure.Repositories
 			order.CreatedAt = DateTime.Now;
 			_context.Orders.Add(order);
 			_context.SaveChanges();
-			foreach (var product in order.Products)
-			{
-				product.OrderId = order.Id;
-			}
 			return order;
 		}
 
