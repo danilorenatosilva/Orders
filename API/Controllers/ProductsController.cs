@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -38,6 +39,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public IActionResult Create([FromBody] ProductViewModel productViewModel)
 		{
 			if (!ModelState.IsValid)

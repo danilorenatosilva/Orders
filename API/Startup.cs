@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain;
 using Infrastructure;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace API
 {
@@ -26,9 +29,8 @@ namespace API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-
 			services.AddControllers();
-			
+
 			services.AddDbContext<OrdersDbContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("OrdersConnectionString"));
@@ -41,9 +43,29 @@ namespace API
 			.AddEntityFrameworkStores<OrdersDbContext>()
 			.AddDefaultTokenProviders();
 
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(bearerOptions =>
+			{
+				//bearerOptions.RequireHttpsMetadata = true;
+				bearerOptions.SaveToken = true;
+				bearerOptions.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = key,
+					ValidateIssuer = false,
+					ValidateAudience = false
+				};
+			});			
+
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });				
 			});
 
 			var config = new MapperConfiguration(cfg =>
@@ -80,6 +102,7 @@ namespace API
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseCors(config =>

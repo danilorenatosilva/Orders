@@ -33,7 +33,8 @@ namespace Application.Services
 			_signInManager = signInManager;
 			_mapper = mapper;
 			_userService = userService;
-			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
+			var tokenKey = configuration["TokenKey"];
+			_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 		}
 
 		public async Task<UserViewModel> Login(LoginUserViewModel loginUserViewModel)
@@ -97,22 +98,15 @@ namespace Application.Services
 				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
 			};
 
-			var roles = await _userManager.GetRolesAsync(user);
-
-			claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-			var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity(claims),
-				Expires = DateTime.Now.AddDays(7),
-				SigningCredentials = credentials
-			};
+			var identityClaims = new ClaimsIdentity(claims);
 
 			var tokenHandler = new JwtSecurityTokenHandler();
-
-			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
+			{
+				Subject = identityClaims,
+				Expires = DateTime.UtcNow.AddHours(2),
+				SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature)
+			});
 
 			return tokenHandler.WriteToken(token);
 		}
