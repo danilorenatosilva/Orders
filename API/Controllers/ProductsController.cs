@@ -18,6 +18,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
+		[Authorize]
 		public IActionResult GetProductsByFilter([FromQuery] string name, 
 								string description, 
 								string price, string initialDate, 
