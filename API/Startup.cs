@@ -80,6 +80,8 @@ namespace API
 				cfg.CreateMap<Product, ProductViewModel>();
 				cfg.CreateMap<OrderViewModel, Order>();
 				cfg.CreateMap<Order, OrderViewModel>();
+				cfg.CreateMap<OrderItem, OrderItemViewModel>();
+				cfg.CreateMap<OrderItemViewModel, OrderItem>();
 			});
 
 			IMapper mapper = config.CreateMapper();
