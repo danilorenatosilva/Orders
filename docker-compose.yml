@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+    web:
+        build: .
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
+    db:
+        image: "mcr.microsoft.com/mssql/server:2019-latest"
+        env_file:
+            - mssql.env
+        ports:
+            - "22:1433"
