@@ -3,11 +3,11 @@ An ASP.NET Core 5 application using Clean Architecture concepts
 
 # Technologies used  
 ASP.NET Core 5.0  
-EntityFrameworkCore 5.0
-Identity
-SQL Server
-Docker
-Json Web Token (JWT)
+EntityFrameworkCore 5.0  
+Identity  
+SQL Server  
+Docker  
+Json Web Token (JWT)  
 
 # Running the application
 To run the application on a Docker container with the Docker installed in a Windows machine run the exec.bat script that is in the same directory of the solution, this bat file will call docker compose build and run.
