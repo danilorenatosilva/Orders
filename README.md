@@ -14,7 +14,7 @@ To run the application on a Docker container with the Docker installed in a Wind
 After executing the script the application will be running on the localhost in the 5000 port.
 
 # Accessing the endpoints
-To access the endpoints that need authorization, first you need to register a user on the signup endpoint and then call the signup endpoint passing a valid user and password, this call will return to you an JWT Token that you will use to call the endpoints that need authorization, like /products and so on.
+To access the endpoints that need authorization, first you need to register a user on the signup endpoint and then call the signin endpoint passing a valid user and password, this call will return to you an JWT Token that you will use to call the endpoints that need authorization, like /products and so on.
 
 # Curl Examples of how to call the endpoints
 SignIN  
