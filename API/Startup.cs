@@ -52,7 +52,6 @@ namespace API
 			})
 			.AddJwtBearer(bearerOptions =>
 			{
-				//bearerOptions.RequireHttpsMetadata = true;
 				bearerOptions.SaveToken = true;
 				bearerOptions.TokenValidationParameters = new TokenValidationParameters
 				{
@@ -61,11 +60,11 @@ namespace API
 					ValidateIssuer = false,
 					ValidateAudience = false
 				};
-			});			
+			});
 
 			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });				
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 			});
 
 			var config = new MapperConfiguration(cfg =>
@@ -91,7 +90,7 @@ namespace API
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, OrdersDbContext ordersDbContext)
 		{
 			if (env.IsDevelopment())
 			{
@@ -99,8 +98,6 @@ namespace API
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 			}
-
-			app.UseHttpsRedirection();
 
 			app.UseRouting();
 
@@ -118,6 +115,8 @@ namespace API
 			{
 				endpoints.MapControllers();
 			});
+
+			ordersDbContext.Database.Migrate();
 		}
 
 		private static void RegisterServices(IServiceCollection services)
