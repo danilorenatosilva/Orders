@@ -24,20 +24,20 @@ SignUp
 curl -X POST "http://localhost:5000/Authentication/signup" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"userName\":\"string\",\"fullDisplayName\":\"string\",\"password\":\"string\",\"email\":\"string\"}"  
 
 Users GET - (all the parameters are optional)
-curl -X GET "http://localhost:5000/Users?userName=userName&fullDisplayName=fullDisplayName&email=email&initialDate=initialDate&finalDate=finalDate" -H  "accept: */*"  
+curl -X GET "http://localhost:5000/Users?userName=userName&fullDisplayName=fullDisplayName&email=email&initialDate=initialDate&finalDate=finalDate" -H "Authorization: Bearer token_value" -H  "accept: */*"  
 
 Orders GET  
-curl -X GET "http://localhost:5000/Orders" -H  "accept: */*"  
+curl -X GET "http://localhost:5000/Orders" -H "Authorization: Bearer token_value" -H  "accept: */*"  
 
 Orders POST  
-curl -X POST "http://localhost:5000/Orders" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"userId\":0,\"products\":[{\"price\":0,\"quantity\":0}]}"  
+curl -X POST "http://localhost:5000/Orders" -H "Authorization: Bearer token_value" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"userId\":0,\"products\":[{\"price\":0,\"quantity\":0}]}"  
 
 Products GET (all the parameters are optional)  
-curl -X GET "http://localhost:5000/Products?name=name&description=description&price=price&initialDate=initialDate&finalDate=finalDate" -H  "accept: */*"  
+curl -X GET "http://localhost:5000/Products?name=name&description=description&price=price&initialDate=initialDate&finalDate=finalDate" -H "Authorization: Bearer token_value" -H  "accept: */*"  
 
 Products POST  
-curl -X POST "http://localhost:5000/Products" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"id\":0,\"name\":\"string\",\"description\":\"string\",\"price\":0}"  
+curl -X POST "http://localhost:5000/Products" -H "Authorization: Bearer token_value" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"id\":0,\"name\":\"string\",\"description\":\"string\",\"price\":0}"  
 
 Products PUT  
-curl -X PUT "http://localhost:5000/Products/1" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"id\":0,\"name\":\"string\",\"description\":\"string\",\"price\":0}"  
+curl -X PUT "http://localhost:5000/Products/1" -H "Authorization: Bearer token_value" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"id\":0,\"name\":\"string\",\"description\":\"string\",\"price\":0}"  
 
